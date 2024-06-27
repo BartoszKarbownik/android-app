@@ -20,7 +20,10 @@ import androidx.navigation.NavController
 import com.example.todolistapp.TaskViewModel
 import com.example.todolistapp.model.Task
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.*
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 @Composable
 fun TaskListScreen(navController: NavController, viewModel: TaskViewModel) {
@@ -51,24 +54,33 @@ fun TaskItem(task: Task, onDelete: () -> Unit) {
             .padding(8.dp)
             .clickable { expanded = !expanded }
     ) {
-        Row(
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically
+                .padding(16.dp)
         ) {
-            Text(
-                text = task.title,
-                modifier = Modifier.weight(1f),
-                maxLines = if (expanded) Int.MAX_VALUE else 2,
-                overflow = TextOverflow.Ellipsis
-            )
-            Spacer(modifier = Modifier.width(16.dp))
-            IconButton(onClick = onDelete) {
-                Icon(
-                    painter = painterResource(id = android.R.drawable.ic_delete),
-                    contentDescription = "Delete"
-                )
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(
+                        text = task.title,
+                        maxLines = if (expanded) Int.MAX_VALUE else 2,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                    if (task.dueDate != null) {
+                        Text(
+                            text = "Due: ${SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(task.dueDate!!)}",
+                            style = MaterialTheme.typography.bodySmall
+                        )
+                    }
+                }
+                IconButton(onClick = onDelete) {
+                    Icon(
+                        painter = painterResource(id = android.R.drawable.ic_delete),
+                        contentDescription = "Delete"
+                    )
+                }
             }
         }
     }

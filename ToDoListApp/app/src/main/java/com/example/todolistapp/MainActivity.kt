@@ -19,10 +19,31 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.todolistapp.data.AppDatabase
 import com.example.todolistapp.ui.theme.ToDoListAppTheme
+import android.Manifest
+import android.content.pm.PackageManager
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.activity.result.contract.ActivityResultContracts
+
 
 class MainActivity : ComponentActivity() {
+    private val requestPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
+            when {
+                permissions.getOrDefault(Manifest.permission.READ_CALENDAR, false) -> {
+                    // Permisja READ_CALENDAR została przyznana
+                }
+                permissions.getOrDefault(Manifest.permission.WRITE_CALENDAR, false) -> {
+                    // Permisja WRITE_CALENDAR została przyznana
+                }
+                else -> {
+                    // Wyjaśnij użytkownikowi, że funkcja nie będzie dostępna
+                }
+            }
+        }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        checkCalendarPermission()
 
         val taskDao = AppDatabase.getDatabase(applicationContext).taskDao()
         val viewModel = ViewModelProvider(this, TaskViewModelFactory(taskDao))[TaskViewModel::class.java]
@@ -42,7 +63,27 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+    private fun checkCalendarPermission() {
+        when {
+            ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.READ_CALENDAR
+            ) == PackageManager.PERMISSION_GRANTED &&
+                    ContextCompat.checkSelfPermission(
+                        this,
+                        Manifest.permission.WRITE_CALENDAR
+                    ) == PackageManager.PERMISSION_GRANTED -> {
+            }
+            else -> {
+                requestPermissionLauncher.launch(arrayOf(
+                    Manifest.permission.READ_CALENDAR,
+                    Manifest.permission.WRITE_CALENDAR
+                ))
+            }
+        }
+    }
 }
+
 
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {

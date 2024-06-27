@@ -7,6 +7,7 @@ import com.example.todolistapp.model.Task
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import java.util.Date
 
 class TaskViewModel(private val taskDao: TaskDao) : ViewModel() {
     private val _tasks = MutableStateFlow<List<Task>>(emptyList())
@@ -20,9 +21,15 @@ class TaskViewModel(private val taskDao: TaskDao) : ViewModel() {
         }
     }
 
-    fun addTask(task: Task) {
+    fun addTask(title: String, dueDate: Date?) {
         viewModelScope.launch {
-            taskDao.insertTask(task)
+            taskDao.insertTask(Task(title = title, dueDate = dueDate))
+        }
+    }
+
+    fun updateTask(task: Task, newTitle: String, newDueDate: Date?) {
+        viewModelScope.launch {
+            taskDao.updateTask(task.id, newTitle, newDueDate)
         }
     }
 
