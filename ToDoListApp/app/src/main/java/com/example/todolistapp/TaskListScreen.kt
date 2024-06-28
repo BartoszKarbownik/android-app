@@ -1,10 +1,8 @@
 package com.example.todolistapp
 
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.*
@@ -17,7 +15,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.todolistapp.TaskViewModel
+import com.example.todolistapp.model.TaskViewModel
 import com.example.todolistapp.model.Task
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column

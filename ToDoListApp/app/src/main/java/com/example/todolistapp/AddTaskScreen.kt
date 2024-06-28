@@ -9,7 +9,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.foundation.clickable
 import androidx.navigation.NavController
-import com.example.todolistapp.model.Task
+import com.example.todolistapp.model.TaskViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
