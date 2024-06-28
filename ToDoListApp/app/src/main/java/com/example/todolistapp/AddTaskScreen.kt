@@ -1,5 +1,6 @@
 package com.example.todolistapp
 
+import android.app.DatePickerDialog
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -18,21 +19,36 @@ fun AddTaskScreen(navController: NavController, viewModel: TaskViewModel) {
     var dueDate by remember { mutableStateOf<Date?>(null) }
     val context = LocalContext.current
 
+    val dateFormatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+
+    val datePickerDialog = remember {
+        DatePickerDialog(
+            context,
+            { _, year, month, dayOfMonth ->
+                val calendar = Calendar.getInstance()
+                calendar.set(year, month, dayOfMonth)
+                dueDate = calendar.time
+            },
+            Calendar.getInstance().get(Calendar.YEAR),
+            Calendar.getInstance().get(Calendar.MONTH),
+            Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
+        )
+    }
+
     Column(modifier = Modifier.padding(16.dp)) {
         OutlinedTextField(
             value = taskTitle,
             onValueChange = { taskTitle = it },
-            label = { Text("Task Title") },
+            label = { Text("Tytuł zadania") },
             modifier = Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.height(16.dp))
         Text(
-            text = if (dueDate != null) SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(dueDate!!) else "Select Due Date",
+            text = if (dueDate != null) dateFormatter.format(dueDate!!) else "Wybierz datę dla zadania",
             modifier = Modifier
                 .fillMaxWidth()
                 .clickable {
-                    // Here we would show a date picker. For simplicity, we'll just set a random date.
-                    dueDate = Date(System.currentTimeMillis() + (1000 * 60 * 60 * 24 * Random().nextInt(30)))
+                    datePickerDialog.show()
                 }
         )
         Spacer(modifier = Modifier.height(16.dp))
@@ -45,7 +61,7 @@ fun AddTaskScreen(navController: NavController, viewModel: TaskViewModel) {
             },
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text("Save Task")
+            Text("Zapisz zadanie")
         }
     }
 }

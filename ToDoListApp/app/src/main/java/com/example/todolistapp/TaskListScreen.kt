@@ -32,7 +32,7 @@ fun TaskListScreen(navController: NavController, viewModel: TaskViewModel) {
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(onClick = { navController.navigate("addTask") }) {
-                Icon(painter = painterResource(id = android.R.drawable.ic_input_add), contentDescription = "Add Task")
+                Icon(painter = painterResource(id = android.R.drawable.ic_input_add), contentDescription = "Dodaj zadanie")
             }
         }
     ) { innerPadding ->
@@ -70,7 +70,7 @@ fun TaskItem(task: Task, onDelete: () -> Unit) {
                     )
                     if (task.dueDate != null) {
                         Text(
-                            text = "Due: ${SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(task.dueDate!!)}",
+                            text = "Do wykonania: ${SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(task.dueDate!!)}",
                             style = MaterialTheme.typography.bodySmall
                         )
                     }
@@ -78,7 +78,7 @@ fun TaskItem(task: Task, onDelete: () -> Unit) {
                 IconButton(onClick = onDelete) {
                     Icon(
                         painter = painterResource(id = android.R.drawable.ic_delete),
-                        contentDescription = "Delete"
+                        contentDescription = "Usun"
                     )
                 }
             }

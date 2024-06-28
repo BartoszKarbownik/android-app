@@ -27,6 +27,7 @@ class TaskViewModel(private val taskDao: TaskDao) : ViewModel() {
         }
     }
 
+    //nie implementowane - klikanie rozwija zadanie, lepiej usunąć i dodać nowe
     fun updateTask(task: Task, newTitle: String, newDueDate: Date?) {
         viewModelScope.launch {
             taskDao.updateTask(task.id, newTitle, newDueDate)
