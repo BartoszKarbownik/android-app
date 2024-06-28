@@ -29,13 +29,10 @@ class MainActivity : ComponentActivity() {
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
             when {
                 permissions.getOrDefault(Manifest.permission.READ_CALENDAR, false) -> {
-                    // Permisja READ_CALENDAR została przyznana
                 }
                 permissions.getOrDefault(Manifest.permission.WRITE_CALENDAR, false) -> {
-                    // Permisja WRITE_CALENDAR została przyznana
                 }
                 else -> {
-                    // Wyjaśnij użytkownikowi, że funkcja nie będzie dostępna
                 }
             }
         }
@@ -79,22 +76,5 @@ class MainActivity : ComponentActivity() {
                 ))
             }
         }
-    }
-}
-
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    ToDoListAppTheme {
-        Greeting("Android")
     }
 }
